@@ -6,9 +6,9 @@
 
 # Nadenade Hikari
 
-Game berbasis webcam yang terinspirasi dari permainan whack-a-mole, dengan pemain harus menepuk Hikari yang muncul di berbagai posisi pada layar.
+Game berbasis webcam yang terinspirasi dari permainan *whack-a-mole*, dengan konsep **watch-who-you-pet**. Pemain harus menemukan dan menepuk Hikari yang muncul pada berbagai posisi di area permainan.
 
-Pemain menggerakkan tangan kanan di depan webcam untuk mengendalikan cursor pada area permainan. Ketika cursor berada pada posisi Hikari, pemain dapat menekan tombol `Z` untuk melakukan nadenade dan mendapatkan skor.
+Pemain menggerakkan tangan kanan di depan webcam untuk mengendalikan cursor. Ketika cursor berada pada target, pemain dapat menekan tombol `Z` untuk melakukan nadenade dan mendapatkan skor.
 
 Program menggunakan webcam dan color tracking berbasis HSV untuk mendeteksi posisi tangan pemain.
 
@@ -17,12 +17,13 @@ Proyek tugas mata kuliah Pengolahan Citra dan Video (PCV).
 ## Konten
 
 * `main.py` — aplikasi utama: webcam, game loop, dan perpindahan game state.
+* `calibration.py` — proses kalibrasi warna untuk menentukan rentang HSV.
+* `calibration.json` — batas HSV hasil proses kalibrasi warna.
 * `states/game_state.py` — definisi state permainan.
 * `states/menu_state.py` — tampilan dan logika menu utama.
-* `calibration.json` — batas HSV hasil proses kalibrasi warna.
+* `states/cursor.py` — cursor yang mengikuti posisi tangan hasil deteksi.
 * `assets/img/` — gambar Hikari dan aset visual lainnya.
 * `assets/audio/` — efek suara dan audio game.
-* `demo/` — video demo project.
 
 ## Test
 
@@ -42,7 +43,7 @@ Aplikasi akan membuka webcam dan menjalankan game.
 
 Pada menu utama, pemain dapat menggerakkan tangan kanan untuk mengendalikan cursor.
 
-Tekan `z` untuk melakukan nadenade ketika cursor berada pada Hikari.
+Cursor dapat digunakan untuk memilih tombol pada menu. Tekan `Z` ketika cursor berada pada tombol yang ingin dipilih.
 
 ## Teknologi
 
@@ -74,7 +75,8 @@ Alur utama program:
 main.py
    │
    ├── MENU
-   │     └── menu_state.py
+   │     ├── menu_state.py
+   │     └── cursor.py
    │
    └── PLAYING
          └── game_state.py
@@ -106,7 +108,7 @@ Nadenade
 Game Response
 ```
 
-Webcam menampilkan video dalam warna normal pada bagian kanan layar.
+Webcam menampilkan video dalam warna normal pada panel di sebelah kiri layar.
 
 Frame kamera juga diproses dalam ruang warna HSV untuk mendeteksi warna yang telah ditentukan pada proses kalibrasi.
 
@@ -120,8 +122,16 @@ Contoh data kalibrasi:
 
 ```json
 {
-    "lower_hsv": [0, 0, 0],
-    "upper_hsv": [0, 0, 0]
+    "lower_hsv": [
+        13,
+        89,
+        146
+    ],
+    "upper_hsv": [
+        40,
+        255,
+        229
+    ]
 }
 ```
 
@@ -132,24 +142,24 @@ Camera Frame
       ↓
      HSV
       ↓
-  HSV Range
+   HSV Range
       ↓
    Color Mask
       ↓
 Detected Position
 ```
 
-Posisi hasil deteksi kemudian digunakan untuk menentukan posisi cursor pada area permainan.
+Posisi hasil deteksi kemudian digunakan untuk menentukan posisi cursor pada layar.
 
-Cursor akan mengikuti pergerakan tangan kanan pemain.
+Cursor akan mengikuti pergerakan tangan kanan pemain dan dapat digunakan untuk berinteraksi dengan elemen pada game.
 
 ## Gameplay
 
-Gameplay terinspirasi dari konsep whack-a-mole.
+Gameplay menggunakan konsep **watch-who-you-pet** yang terinspirasi dari *whack-a-mole*.
 
 Hikari akan muncul pada posisi tertentu di area permainan. Pemain harus menggerakkan tangan kanan untuk mengarahkan cursor menuju Hikari.
 
-Ketika cursor berada pada posisi Hikari, pemain dapat menekan tombol:
+Ketika cursor berada pada Hikari, pemain dapat menekan:
 
 ```text
 Z
@@ -157,22 +167,22 @@ Z
 
 untuk melakukan nadenade.
 
-Alur permainan:
+Konsep permainan juga menggunakan karakter Nozomi sebagai elemen pengganggu. Ketika pemain mencoba melakukan nadenade pada Nozomi, Nozomi dapat memberikan bom yang menjadi bagian dari sistem health permainan.
+
+Alur dasar permainan:
 
 ```text
-Hikari muncul
+Target muncul
      ↓
 Gerakkan tangan kanan
      ↓
-Cursor menuju Hikari
+Cursor menuju target
      ↓
 Tekan Z
      ↓
-Nadenade berhasil
+Target berhasil dinadenade
      ↓
-Score bertambah
-     ↓
-Hikari berpindah
+Game memberikan response
 ```
 
 ### Kontrol
@@ -180,7 +190,7 @@ Hikari berpindah
 | Input        | Fungsi                |
 | ------------ | --------------------- |
 | Right Hand   | Menggerakkan cursor   |
-| `Z`          | Nadenade / pat Hikari |
+| `Z`          | Nadenade / interaksi  |
 | Window Close | Keluar dari permainan |
 
 ## User Interface
@@ -191,25 +201,11 @@ Game menggunakan window berukuran:
 1280 × 720
 ```
 
-Area permainan berada di sebelah kiri, sedangkan webcam ditampilkan pada panel di sebelah kanan.
-
-```text
-┌───────────────────────────────────────────────────────────────┐
-│                                           |                   │
-│  NADENADE HIKARI                          |                   │
-│                                           |                   │
-│  START                                    |                   │
-│  QUIT                                     |                   │
-│                                           |                   │
-│                         Game Area         |   ┌────────────┐  │
-│                                           |   │            │  │
-│                                           |   │   CAMERA   │  │
-│                                           |   │            │  │
-│                                           |   └────────────┘  │
-└───────────────────────────────────────────────────────────────┘
-```
+Panel webcam berada di sebelah kiri, sedangkan area menu dan permainan berada di sebelah kanan.
 
 Camera preview menggunakan rasio 4:3 agar tampilan webcam tidak terdistorsi.
+
+Cursor ditampilkan di atas game window dan mengikuti posisi tangan yang terdeteksi oleh sistem color tracking.
 
 ## Progress
 
@@ -224,3 +220,11 @@ Camera preview menggunakan rasio 4:3 agar tampilan webcam tidak terdistorsi.
 * **Camera preview.** Menampilkan webcam dalam warna normal dengan rasio 4:3 pada bagian kanan layar.
 * **Gameplay concept.** Menentukan konsep permainan berupa whack-a-mole dengan Hikari sebagai karakter yang harus dinadenade.
 * Repo ini mengikuti project lama saya sendiri (https://github.com/Kurumicchi/Daitaku-Helios-Simulator) yang seharusnya dijadikan untuk mata kuliah PCV sebelum ada rumor MediaPipe tidak diizinkan
+
+### 2026-09-16
+* **Menu layout.** Mengubah layout menu dengan menempatkan panel webcam di sebelah kiri dan area menu di sebelah kanan agar area permainan lebih nyaman digunakan dengan tangan kanan.
+* **Hand cursor.** Membuat sistem cursor berbasis posisi tangan yang mengikuti pergerakan tangan kanan pemain pada game window.
+* **Cursor interaction.** Menambahkan sistem collision antara cursor dan tombol menu untuk mendeteksi ketika cursor berada di atas tombol.
+* **Button hover.** Menambahkan visual state untuk membedakan tombol yang sedang di-hover oleh cursor.
+* **Input.** Menambahkan interaksi tombol menggunakan `Z`, sehingga pemain dapat memilih tombol menu menggunakan hand cursor.
+* **Cursor module.** Memisahkan logika hand cursor ke dalam `states/cursor.py` agar lebih mudah digunakan kembali pada gameplay.
