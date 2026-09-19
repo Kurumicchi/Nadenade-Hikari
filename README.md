@@ -201,11 +201,37 @@ Game menggunakan window berukuran:
 1280 × 720
 ```
 
-Panel webcam berada di sebelah kiri, sedangkan area menu dan permainan berada di sebelah kanan.
+Menu utama menggunakan layout dengan panel webcam di sebelah kiri dan area menu di sebelah kanan.
 
 Camera preview menggunakan rasio 4:3 agar tampilan webcam tidak terdistorsi.
 
 Cursor ditampilkan di atas game window dan mengikuti posisi tangan yang terdeteksi oleh sistem color tracking.
+
+Visual menu dibuat menggunakan aset yang dirancang di Figma dan digunakan sebagai PNG pada Pygame.
+
+Elemen visual menu meliputi:
+* Background game area
+* Side panel
+* Title
+* High score display
+* Tombol Start
+* Tombol Quit
+* Animasi awan
+* Camera preview
+* Hand cursor
+
+## Audio
+Game menggunakan audio sebagai bagian dari atmosfer menu.
+
+Background music menggunakan musik game dengan tempo upbeat dan nuansa chiptune untuk memberikan suasana yang lebih aktif dan playful.
+
+Efek suara tambahan seperti suara kereta "choo choo" digunakan sebagai ambient sound effect yang muncul secara berkala.
+
+Audio game disimpan pada:
+
+```text
+assets/audio/
+```
 
 ## Progress
 
@@ -228,3 +254,12 @@ Cursor ditampilkan di atas game window dan mengikuti posisi tangan yang terdetek
 * **Button hover.** Menambahkan visual state untuk membedakan tombol yang sedang di-hover oleh cursor.
 * **Input.** Menambahkan interaksi tombol menggunakan `Z`, sehingga pemain dapat memilih tombol menu menggunakan hand cursor.
 * **Cursor module.** Memisahkan logika hand cursor ke dalam `states/cursor.py` agar lebih mudah digunakan kembali pada gameplay.
+
+### 2026-09-19
+
+* **Menu visual redesign.** Mendesain ulang tampilan menu utama agar lebih sesuai dengan tema visual Nadenade Hikari menggunakan aset yang dibuat di Figma.
+* **Figma assets.** Mengintegrasikan aset visual dari Figma sebagai PNG ke dalam Pygame, termasuk background game area, side panel, title, high score, dan tombol menu.
+* **Button states.** Menambahkan tiga visual state pada tombol menu: idle, hovered, dan pressed.
+* **Button hitbox.** Menyesuaikan area collision tombol dengan area tombol sebenarnya pada aset PNG agar interaksi hand cursor lebih akurat.
+* **Smooth cloud movement.** Menggunakan posisi floating-point untuk pergerakan awan agar kecepatan rendah tetap terlihat halus meskipun posisi pygame.Rect menggunakan integer.
+* **BGM selection.** Memilih musik chiptune upbeat sebagai kandidat background music yang sesuai dengan suasana playful dan energetic pada game.
