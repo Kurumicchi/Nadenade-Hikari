@@ -74,9 +74,11 @@ class menu_state:
             }
         ]
 
+        self.camera_rect = pygame.Rect(60, 420, 320, 240)
+
         self.button_hovered = None
         self.button_pressed = None
-        self.camera_rect = pygame.Rect(60, 420, 320, 240)
+        self.next_state = None
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -84,6 +86,7 @@ class menu_state:
                 if self.button_hovered == "start":
                     self.button_pressed = "start"
                     print("start")
+                    self.next_state = "game"
                 elif self.button_hovered == "quit":
                     self.button_pressed = "quit"
                     print("quit")
@@ -104,13 +107,23 @@ class menu_state:
             if cloud["rect"].left > 1280:
                 cloud["x"] = 440
                 cloud["rect"].left = 440
-        
+
+
+        '''
         cursor_rect = pygame.Rect(
             self.cursor.position[0] - self.cursor.radius,
             self.cursor.position[1] - self.cursor.radius,
             self.cursor.radius * 2,
             self.cursor.radius * 2
         )
+        '''
+        cursor_rect = pygame.Rect(
+            self.cursor.position[0] - self.cursor.cursor.get_width() // 2,
+            self.cursor.position[1] - self.cursor.cursor.get_height() // 2,
+            self.cursor.cursor.get_width(),
+            self.cursor.cursor.get_height()
+        )
+
 
         if cursor_rect.colliderect(self.start_hitbox):
             self.button_hovered = "start"

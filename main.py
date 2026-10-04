@@ -3,6 +3,7 @@ import json
 import pygame
 
 from states.menu_state import menu_state
+from states.game_state import game_state
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -43,6 +44,13 @@ def main():
                 running = False
 
             current_state.handle_event(event)
+
+        if current_state.next_state == "game":
+            current_state = game_state(
+                camera,
+                lower_hsv,
+                upper_hsv
+            )
 
         current_state.update()
         current_state.draw(screen)

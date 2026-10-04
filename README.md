@@ -263,3 +263,11 @@ assets/audio/
 * **Button hitbox.** Menyesuaikan area collision tombol dengan area tombol sebenarnya pada aset PNG agar interaksi hand cursor lebih akurat.
 * **Smooth cloud movement.** Menggunakan posisi floating-point untuk pergerakan awan agar kecepatan rendah tetap terlihat halus meskipun posisi pygame.Rect menggunakan integer.
 * **BGM selection.** Memilih musik chiptune upbeat sebagai kandidat background music yang sesuai dengan suasana playful dan energetic pada game.
+
+### 2026-10-04
+
+* **Cursorupdate.** Memperbarui tampilan hand cursor agar terlihat lebih menarik dan sesuai dengan tema visual Nadenade Hikari.
+* **Game state UI design.** Mendesain tampilan gameplay di Figma sebagai acuan visual untuk pengembangan antarmuka permainan.
+* **Game state initialization.** Membuat modul `states/game_state.py` sebagai fondasi untuk implementasi gameplay, termasuk background game area, side panel, webcam, dan hand cursor.
+* **State transition.** Mengintegrasikan perpindahan dari menu utama ke game state melalui tombol `Z` ketika hand cursor berada di atas tombol Start.
+* **State structure.** Menyiapkan atribut `next_state` pada game state untuk mendukung sistem perpindahan antarlayar pada pengembangan selanjutnya.

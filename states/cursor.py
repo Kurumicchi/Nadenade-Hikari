@@ -1,17 +1,21 @@
 import pygame
 
 class handcursor:
-    def __init__(self, radius=15):
+    def __init__(self):
         self.position = (0, 0)
-        self.radius = radius
+        self.cursor = pygame.image.load("assets/img/cursor.png").convert_alpha()
+        self.cursor = pygame.transform.scale(self.cursor, (48, 48))
 
     def update(self, position):
         self.position = position
 
     def draw(self, screen):
-        pygame.draw.circle(
-            screen,
-            (255, 255, 255),
-            self.position,
-            self.radius
+        x, y = self.position
+
+        screen.blit(
+            self.cursor,
+            (
+                x - self.cursor.get_width() // 2,
+                y - self.cursor.get_height() // 2
+            )
         )
