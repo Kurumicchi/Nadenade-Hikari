@@ -11,7 +11,7 @@ class game_state:
 
         self.cursor = handcursor()
 
-        self.game_area = pygame.image.load("assets/img/game_area.png").convert_alpha()
+        self.game_area = pygame.image.load("assets/img/game_area2.png").convert_alpha()
         self.side_panel = pygame.image.load("assets/img/side_panel.png").convert_alpha()
 
         self.game_area_rect = self.game_area.get_rect(topleft=(440, 0))

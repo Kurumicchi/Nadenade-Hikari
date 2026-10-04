@@ -266,7 +266,7 @@ assets/audio/
 
 ### 2026-10-04
 
-* **Cursorupdate.** Memperbarui tampilan hand cursor agar terlihat lebih menarik dan sesuai dengan tema visual Nadenade Hikari.
+* **Cursor update.** Memperbarui tampilan hand cursor agar terlihat lebih menarik dan sesuai dengan tema visual Nadenade Hikari.
 * **Game state UI design.** Mendesain tampilan gameplay di Figma sebagai acuan visual untuk pengembangan antarmuka permainan.
 * **Game state initialization.** Membuat modul `states/game_state.py` sebagai fondasi untuk implementasi gameplay, termasuk background game area, side panel, webcam, dan hand cursor.
 * **State transition.** Mengintegrasikan perpindahan dari menu utama ke game state melalui tombol `Z` ketika hand cursor berada di atas tombol Start.
