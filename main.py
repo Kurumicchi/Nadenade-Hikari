@@ -2,8 +2,8 @@ import cv2
 import json
 import pygame
 
-from states.menu_state import menu_state
-from states.game_state import game_state
+from states.menu_state import MenuState
+from states.game_state import GameState
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -30,7 +30,7 @@ def main():
         print("Could not open camera.")
         return
 
-    current_state = menu_state(
+    current_state = MenuState(
         camera,
         lower_hsv,
         upper_hsv
@@ -46,7 +46,7 @@ def main():
             current_state.handle_event(event)
 
         if current_state.next_state == "game":
-            current_state = game_state(
+            current_state = GameState(
                 camera,
                 lower_hsv,
                 upper_hsv

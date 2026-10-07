@@ -1,6 +1,6 @@
 import pygame
 
-class handcursor:
+class HandCursor:
     def __init__(self):
         self.position = (0, 0)
         self.cursor = pygame.image.load("assets/img/cursor.png").convert_alpha()

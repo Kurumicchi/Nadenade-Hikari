@@ -1,22 +1,22 @@
 import cv2
 import pygame
 import random
-from states.cursor import handcursor
+from states.cursor import HandCursor
 
-class menu_state:
+class MenuState:
     def __init__(self, camera, lower_hsv, upper_hsv):
         self.camera = camera
         self.lower_hsv = lower_hsv
         self.upper_hsv = upper_hsv
 
         pygame.mixer.music.load("assets/audio/tatamusic_chiptune_video_game_games_music.mp3")
-        pygame.mixer.music.set_volume(0.7)
+        pygame.mixer.music.set_volume(0)
         pygame.mixer.music.play(-1, fade_ms=1000)
         self.choo_choo = pygame.mixer.Sound("assets/audio/choo_choo.mp3")
         self.choo_choo.set_volume(0.2)
         self.next_choo_time = pygame.time.get_ticks() + random.randint(5000, 10000)
 
-        self.cursor = handcursor()
+        self.cursor = HandCursor()
         self.content_right = 500
 
         self.game_area = pygame.image.load("assets/img/game_area.png").convert_alpha()

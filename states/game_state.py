@@ -1,15 +1,16 @@
 import cv2
 import pygame
 import random
-from states.cursor import handcursor
+from states.cursor import HandCursor
+from states.game_mechanics import GameMechanics
 
-class game_state:
+class GameState:
     def __init__(self, camera, lower_hsv, upper_hsv):
         self.camera = camera
         self.lower_hsv = lower_hsv
         self.upper_hsv = upper_hsv
 
-        self.cursor = handcursor()
+        self.cursor = HandCursor()
 
         self.game_area = pygame.image.load("assets/img/game_area2.png").convert_alpha()
         self.side_panel = pygame.image.load("assets/img/side_panel.png").convert_alpha()
@@ -23,17 +24,25 @@ class game_state:
         self.button_pressed = None
         self.next_state = None
 
+        self.mechanics = GameMechanics(self.game_area_rect)
+        self.clock = pygame.time.Clock()
+
     def handle_event(self, event):
-        pass
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_z:
+                self.mechanics.click(self.cursor.position)
 
     def update(self):
-        pass
+        delta_time = self.clock.tick(60)
+        self.mechanics.update(delta_time)
 
     def draw(self, screen):
         screen.fill((247, 248, 242))
 
         screen.blit(self.game_area, self.game_area_rect)
         screen.blit(self.side_panel, self.side_panel_rect)
+
+        self.mechanics.draw(screen)
 
         frame = self.get_camera()
 

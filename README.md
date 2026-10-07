@@ -22,6 +22,7 @@ Proyek tugas mata kuliah Pengolahan Citra dan Video (PCV).
 * `states/game_state.py` — definisi state permainan.
 * `states/menu_state.py` — tampilan dan logika menu utama.
 * `states/cursor.py` — cursor yang mengikuti posisi tangan hasil deteksi.
+* `states/game_mechanics.py` — mengurus gameplay pada game state
 * `assets/img/` — gambar Hikari dan aset visual lainnya.
 * `assets/audio/` — efek suara dan audio game.
 
@@ -75,11 +76,11 @@ Alur utama program:
 main.py
    │
    ├── MENU
-   │     ├── menu_state.py
-   │     └── cursor.py
+   │     └── menu_state.py  
    │
    └── PLAYING
          └── game_state.py
+         └── game_mechanics.py
 ```
 
 ## Cara Kerja
@@ -209,30 +210,6 @@ Cursor ditampilkan di atas game window dan mengikuti posisi tangan yang terdetek
 
 Visual menu dibuat menggunakan aset yang dirancang di Figma dan digunakan sebagai PNG pada Pygame.
 
-Elemen visual menu meliputi:
-* Background game area
-* Side panel
-* Title
-* High score display
-* Tombol Start
-* Tombol Quit
-* Animasi awan
-* Camera preview
-* Hand cursor
-
-## Audio
-Game menggunakan audio sebagai bagian dari atmosfer menu.
-
-Background music menggunakan musik game dengan tempo upbeat dan nuansa chiptune untuk memberikan suasana yang lebih aktif dan playful.
-
-Efek suara tambahan seperti suara kereta "choo choo" digunakan sebagai ambient sound effect yang muncul secara berkala.
-
-Audio game disimpan pada:
-
-```text
-assets/audio/
-```
-
 ## Progress
 
 ### 2026-09-13
@@ -271,3 +248,11 @@ assets/audio/
 * **Game state initialization.** Membuat modul `states/game_state.py` sebagai fondasi untuk implementasi gameplay, termasuk background game area, side panel, webcam, dan hand cursor.
 * **State transition.** Mengintegrasikan perpindahan dari menu utama ke game state melalui tombol `Z` ketika hand cursor berada di atas tombol Start.
 * **State structure.** Menyiapkan atribut `next_state` pada game state untuk mendukung sistem perpindahan antarlayar pada pengembangan selanjutnya.
+
+### 2026-10-07
+* **Game mechanics.** Membuat modul `states/game_mechanics.py` untuk menangani logika utama permainan, termasuk sistem grid, kemunculan karakter, timer, dan perubahan state setiap karakter.
+* **Character system.** Mengimplementasikan sistem kemunculan karakter Hikari dan Nozomi secara acak pada area permainan.
+* **Character state.** Mengembangkan state `EMPTY`, `APPEARING`, `ACTIVE`, `LEAVING`, `HIT`, dan `MISS` untuk mengatur siklus karakter selama permainan.
+* **Interaction system.** Membuat sistem interaksi menggunakan hand cursor, sehingga karakter hanya dapat berinteraksi ketika berada dalam state `ACTIVE` dan cursor berada di dalam area karakter.
+* **Score and health system.** Menambahkan sistem skor dan health, dengan Hikari memberikan tambahan skor ketika berhasil ditekan dan Nozomi mengurangi health pemain.
+* **Difficulty progression.** Mengimplementasikan peningkatan kecepatan kemunculan karakter secara bertahap berdasarkan durasi permainan agar tingkat kesulitan meningkat seiring waktu.
