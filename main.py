@@ -17,6 +17,9 @@ def load_calibration():
 
     return lower_hsv, upper_hsv
 
+def create_menu_state(camera, lower_hsv, upper_hsv):
+    return MenuState(camera, lower_hsv, upper_hsv)
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -45,12 +48,19 @@ def main():
 
             current_state.handle_event(event)
 
-        if current_state.next_state == "game":
-            current_state = GameState(
-                camera,
-                lower_hsv,
-                upper_hsv
-            )
+            if current_state.next_state == "game":
+                current_state = GameState(
+                    camera,
+                    lower_hsv,
+                    upper_hsv
+                )
+
+            elif current_state.next_state == "menu":
+                current_state = create_menu_state(
+                    camera,
+                    lower_hsv,
+                    upper_hsv
+                )
 
         current_state.update()
         current_state.draw(screen)

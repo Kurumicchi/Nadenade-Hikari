@@ -2,6 +2,7 @@ import cv2
 import pygame
 import random
 from states.cursor import HandCursor
+from high_score import load_high_score
 
 class MenuState:
     def __init__(self, camera, lower_hsv, upper_hsv):
@@ -26,6 +27,8 @@ class MenuState:
         
         self.title = pygame.image.load("assets/img/title.png").convert_alpha()
         self.high_score = pygame.image.load("assets/img/high_score.png").convert_alpha()
+        self.high_score_value = load_high_score()
+        self.high_score_font = pygame.font.Font("assets/font/Fredoka-Bold.ttf", 48)
         self.start_image = pygame.image.load("assets/img/start_idle.png").convert_alpha()
         self.start_hovered_image = pygame.image.load("assets/img/start_hovered.png").convert_alpha()
         self.start_pressed_image = pygame.image.load("assets/img/start_pressed.png").convert_alpha()
@@ -148,6 +151,20 @@ class MenuState:
         # static
         screen.blit(self.title, self.title_rect)
         screen.blit(self.high_score, self.high_score_rect)
+        score_text = self.high_score_font.render(
+            str(self.high_score_value),
+            True,
+            (255, 249, 222)
+        )
+
+        score_rect = score_text.get_rect(
+            topleft=(
+                self.high_score_rect.left,
+                self.high_score_rect.bottom + 10
+            )
+        )
+
+        screen.blit(score_text, score_rect)
 
         # button
         if self.button_pressed == "start":
@@ -221,3 +238,6 @@ class MenuState:
             self.camera_rect,
             width=3
         )
+
+    def refresh_high_score(self):
+        self.high_score_value = load_high_score()

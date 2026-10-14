@@ -22,9 +22,12 @@ Proyek tugas mata kuliah Pengolahan Citra dan Video (PCV).
 * `states/game_state.py` — definisi state permainan.
 * `states/menu_state.py` — tampilan dan logika menu utama.
 * `states/cursor.py` — cursor yang mengikuti posisi tangan hasil deteksi.
-* `states/game_mechanics.py` — mengurus gameplay pada game state
+* `states/game_mechanics.py` — mengurus gameplay pada game state.
+* `high_score.py` — menyediakan fungsi untuk high score.
+* `high_score.json` — menyimpan nilai high score yang telah dicapai pemain.
 * `assets/img/` — gambar Hikari dan aset visual lainnya.
 * `assets/audio/` — efek suara dan audio game.
+* `assets/font` — menyimpan font yang digunakan.
 
 ## Test
 
@@ -55,33 +58,6 @@ Cursor dapat digunakan untuk memilih tombol pada menu. Tekan `Z` ketika cursor b
 | Pygame       | Game window, rendering, dan input keyboard |
 | NumPy        | Pemrosesan data gambar                     |
 | Git / GitHub | Version control                            |
-
-## Struktur Game
-
-Game menggunakan sistem state untuk memisahkan menu dan gameplay.
-
-State yang tersedia saat ini:
-
-```text
-MENU
-  ↓
-PLAYING
-```
-
-`main.py` bertugas mengatur state aktif, sedangkan masing-masing state memiliki tanggung jawabnya sendiri.
-
-Alur utama program:
-
-```text
-main.py
-   │
-   ├── MENU
-   │     └── menu_state.py  
-   │
-   └── PLAYING
-         └── game_state.py
-         └── game_mechanics.py
-```
 
 ## Cara Kerja
 
@@ -256,3 +232,10 @@ Visual menu dibuat menggunakan aset yang dirancang di Figma dan digunakan sebaga
 * **Interaction system.** Membuat sistem interaksi menggunakan hand cursor, sehingga karakter hanya dapat berinteraksi ketika berada dalam state `ACTIVE` dan cursor berada di dalam area karakter.
 * **Score and health system.** Menambahkan sistem skor dan health, dengan Hikari memberikan tambahan skor ketika berhasil ditekan dan Nozomi mengurangi health pemain.
 * **Difficulty progression.** Mengimplementasikan peningkatan kecepatan kemunculan karakter secara bertahap berdasarkan durasi permainan agar tingkat kesulitan meningkat seiring waktu.
+
+### 2026-10-14
+* **Score popup.** Menambahkan animasi popup skor setiap kali pemain berhasil menekan karakter Hikari, sehingga penambahan skor ditampilkan secara visual.
+* **High score system.** Mengimplementasikan sistem penyimpanan high score menggunakan file JSON agar skor tertinggi tetap tersimpan meskipun permainan ditutup. High score ditampilkan pada menu dan diperbarui apabila pemain memperoleh skor yang lebih tinggi.
+* **Health display.** Menambahkan tampilan tiga ikon hati untuk menunjukkan health pemain, dengan ikon hati yang berubah menjadi kosong ketika health berkurang.
+* **Damage feedback.** Menambahkan efek kilatan merah (screen flash) dan guncangan layar (screen shake) setiap kali pemain menekan karakter Nozomi, sehingga dampak pengurangan health lebih terasa.
+* **Game over and state transition.** Mengimplementasikan transisi kembali ke menu ketika health pemain mencapai nol, sekaligus memastikan high score diperbarui sebelum permainan berakhir.
