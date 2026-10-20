@@ -88,11 +88,12 @@ class MenuState:
             if event.key == pygame.K_z:
                 if self.button_hovered == "start":
                     self.button_pressed = "start"
-                    print("start")
+                    # print("start")
                     self.next_state = "game"
                 elif self.button_hovered == "quit":
                     self.button_pressed = "quit"
-                    print("quit")
+                    # print("quit")
+                    self.next_state = "quit"
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_z:
                 self.button_pressed = None

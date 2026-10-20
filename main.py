@@ -4,6 +4,7 @@ import pygame
 
 from states.menu_state import MenuState
 from states.game_state import GameState
+from states.losing_state import LosingState
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -33,7 +34,7 @@ def main():
         print("Could not open camera.")
         return
 
-    current_state = MenuState(
+    current_state = GameState(
         camera,
         lower_hsv,
         upper_hsv
@@ -41,38 +42,64 @@ def main():
     clock = pygame.time.Clock()
     running = True
 
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                break
 
             current_state.handle_event(event)
 
-            if current_state.next_state == "game":
-                current_state = GameState(
-                    camera,
-                    lower_hsv,
-                    upper_hsv
-                )
-
-            elif current_state.next_state == "menu":
-                current_state = create_menu_state(
-                    camera,
-                    lower_hsv,
-                    upper_hsv
-                )
+        if not running:
+            break
 
         current_state.update()
         current_state.draw(screen)
 
         pygame.display.flip()
+
+        next_state = current_state.next_state
+
+        if next_state == "game":
+            current_state = GameState(
+                camera,
+                lower_hsv,
+                upper_hsv
+            )
+
+        elif next_state == "menu":
+            current_state = create_menu_state(
+                camera,
+                lower_hsv,
+                upper_hsv
+            )
+
+        elif next_state == "losing":
+            background = screen.copy()
+
+            current_state = LosingState(
+                camera,
+                lower_hsv,
+                upper_hsv,
+                background
+            )
+
+        elif next_state == "restart":
+            current_state = GameState(
+                camera,
+                lower_hsv,
+                upper_hsv
+            )
+
+        elif next_state == "quit":
+            running = False
+
         clock.tick(60)
-
-
 
     camera.release()
     cv2.destroyAllWindows()
-
+    pygame.quit()
 
 if __name__ == "__main__":
     main()

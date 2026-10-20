@@ -14,7 +14,7 @@ class GameMechanics:
         self.game_area_rect = game_area_rect
 
         self.score = 0
-        self.health = 3
+        self.health = 1
         self.high_score_saved = False
 
         self.score_per_hit = 100
@@ -205,7 +205,7 @@ class GameMechanics:
                 width=2
             )
 
-            if state != self.EMPTY:
+            if state == self.ACTIVE:
                 font = pygame.font.Font(None, 32)
 
                 text = font.render(
@@ -239,7 +239,7 @@ class GameMechanics:
                 cell["timer"] = 0
 
                 self.score += self.score_per_hit
-                print(f"Hit Hikari! Score: {self.score}")
+                # print(f"Hit Hikari! Score: {self.score}")
 
                 self.score_popup.append({
                     "x": rect.centerx,
@@ -252,7 +252,7 @@ class GameMechanics:
                 cell["timer"] = 0
 
                 self.health -= 1
-                print(f"Hit Nozomi! Health: {self.health}")
+                #print(f"Hit Nozomi! Health: {self.health}")
 
             return
 

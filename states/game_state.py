@@ -68,9 +68,9 @@ class GameState:
 
         # game over
         if self.mechanics.health <= 0:
-            self.next_state = "menu"
+            self.next_state = "losing"
 
-    def draw(self, screen):
+    def draw(self, screen, draw_cursor=True):
         screen.fill((247, 248, 242))
 
         screen.blit(self.side_panel, self.side_panel_rect)
@@ -96,7 +96,8 @@ class GameState:
 
             self.draw_camera(screen, frame)
 
-        self.cursor.draw(screen)
+        if draw_cursor:
+            self.cursor.draw(screen)
 
     def flash(self, screen, game_surface):
         shake_x = 0

@@ -23,6 +23,7 @@ Proyek tugas mata kuliah Pengolahan Citra dan Video (PCV).
 * `states/menu_state.py` — tampilan dan logika menu utama.
 * `states/cursor.py` — cursor yang mengikuti posisi tangan hasil deteksi.
 * `states/game_mechanics.py` — mengurus gameplay pada game state.
+* `states/losing_state.py` — digunakan untuk popup saat health habis
 * `high_score.py` — menyediakan fungsi untuk high score.
 * `high_score.json` — menyimpan nilai high score yang telah dicapai pemain.
 * `assets/img/` — gambar Hikari dan aset visual lainnya.
@@ -239,3 +240,9 @@ Visual menu dibuat menggunakan aset yang dirancang di Figma dan digunakan sebaga
 * **Health display.** Menambahkan tampilan tiga ikon hati untuk menunjukkan health pemain, dengan ikon hati yang berubah menjadi kosong ketika health berkurang.
 * **Damage feedback.** Menambahkan efek kilatan merah (screen flash) dan guncangan layar (screen shake) setiap kali pemain menekan karakter Nozomi, sehingga dampak pengurangan health lebih terasa.
 * **Game over and state transition.** Mengimplementasikan transisi kembali ke menu ketika health pemain mencapai nol, sekaligus memastikan high score diperbarui sebelum permainan berakhir.
+
+### 2026-10-20
+* **Losing screen.** Menambahkan tampilan layar kekalahan berupa popup yang muncul ketika health pemain mencapai nol, dengan latar belakang permainan yang dibuat buram agar fokus pemain tertuju pada popup.
+* **Button interaction.** Menambahkan tombol **Restart** untuk memulai ulang permainan dan tombol **Quit** untuk kembali ke menu utama, dengan tampilan tombol yang berubah sesuai interaksi pemain.
+* **Menu navigation.** Memperbarui fungsi tombol **Quit** pada menu utama agar pemain dapat keluar dari permainan.
+* **Character visibility.** Memperbarui tampilan nama karakter Hikari dan Nozomi agar hanya muncul ketika karakter berada dalam state `ACTIVE`, sehingga identitas karakter tidak terlihat selama animasi kemunculan maupun transisi state lainnya.
