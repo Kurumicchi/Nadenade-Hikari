@@ -34,7 +34,7 @@ def main():
         print("Could not open camera.")
         return
 
-    current_state = GameState(
+    current_state = MenuState(
         camera,
         lower_hsv,
         upper_hsv

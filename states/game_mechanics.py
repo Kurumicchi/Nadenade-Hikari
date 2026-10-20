@@ -14,7 +14,7 @@ class GameMechanics:
         self.game_area_rect = game_area_rect
 
         self.score = 0
-        self.health = 1
+        self.health = 3
         self.high_score_saved = False
 
         self.score_per_hit = 100
