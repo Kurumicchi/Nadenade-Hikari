@@ -25,6 +25,17 @@ class GameMechanics:
         self.rows = 3
         self.columns = 5
 
+        self.sprites = {
+            "hole": pygame.image.load("assets/img/hole.png").convert_alpha(),
+            "appearing": pygame.image.load("assets/img/appearing.png").convert_alpha(),
+            "nozomi_active": pygame.image.load("assets/img/nozomi_active.png").convert_alpha(),
+            "nozomi_leaving": pygame.image.load("assets/img/nozomi_leaving.png").convert_alpha(),
+            "nozomi_clicked": pygame.image.load("assets/img/nozomi_clicked.png").convert_alpha(),
+            "hikari_active": pygame.image.load("assets/img/hikari_active.png").convert_alpha(),
+            "hikari_leaving": pygame.image.load("assets/img/hikari_leaving.png").convert_alpha(),
+            "hikari_clicked": pygame.image.load("assets/img/hikari_clicked.png").convert_alpha()
+        }
+
         self.cells = [
             {
                 "state": self.EMPTY,
@@ -42,7 +53,7 @@ class GameMechanics:
 
         self.game_timer = 0
         self.spawn_timer = 0
-        self.spawn_interval = 2500
+        self.spawn_interval = 1800
         
         self.spawn_character()
 
@@ -72,22 +83,22 @@ class GameMechanics:
         self.spawn_timer += delta_time
 
         if self.game_timer >= 100000:
-            self.spawn_interval = 800
+            self.spawn_interval = 600
 
         elif self.game_timer >= 80000:
-            self.spawn_interval = 1000
+            self.spawn_interval = 750
 
         elif self.game_timer >= 60000:
-            self.spawn_interval = 1200
+            self.spawn_interval = 900
 
         elif self.game_timer >= 40000:
-            self.spawn_interval = 1500
+            self.spawn_interval = 1100
 
         elif self.game_timer >= 20000:
-            self.spawn_interval = 1800
+            self.spawn_interval = 1400
 
         else:
-            self.spawn_interval = 2500
+            self.spawn_interval = 1800
 
         if self.spawn_timer >= self.spawn_interval:
             self.spawn_character()
@@ -141,7 +152,6 @@ class GameMechanics:
         # highscore
         self.save_high_score_if_needed()
 
-    # placeholder
     def get_cell_rect(self, index):
         padding_x = 40
         padding_y = 45
@@ -172,50 +182,60 @@ class GameMechanics:
             cell_height
         )
 
-    # placeholder
+    def get_sprite_rect(self, index, sprite):
+        cell_rect = self.get_cell_rect(index)
+
+        anchor_x = cell_rect.centerx
+        anchor_y = cell_rect.bottom - 24.83
+
+        return sprite.get_rect(
+            midbottom=(anchor_x, anchor_y)
+        )
+
+    def shadow(self, screen, sprite, rect):
+        shadow = pygame.Surface(sprite.get_size(), pygame.SRCALPHA)
+
+        shadow.fill((35, 30, 35, 0))
+        shadow.blit(sprite, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+        shadow.set_alpha(65)
+
+        shadow_rect = rect.copy()
+        shadow_rect.y += 4
+
+        screen.blit(shadow, shadow_rect)
+        screen.blit(sprite, rect)
+
     def draw(self, screen):
         for index, cell in enumerate(self.cells):
-            rect = self.get_cell_rect(index)
             state = cell["state"]
 
             if state == self.EMPTY:
-                color = (220, 220, 220) # gray
+                sprite = self.sprites["hole"]
+                sprite_rect = self.get_sprite_rect(index, sprite)
 
-            elif state == self.APPEARING:
-                color = (180, 220, 180) # light green
+                self.shadow(screen, sprite, sprite_rect)
 
-            elif state == self.ACTIVE:
-                color = (120, 220, 150) # green
+                continue
 
-            elif state ==self.HIT:
-                color = (255, 220, 80) # yellow
+            sprite_name = None
 
+            if state == self.APPEARING:
+                sprite_name = "appearing"
+            elif state ==self.ACTIVE:
+                sprite_name = f'{cell["character"]}_active'
+            elif state == self.LEAVING:
+                sprite_name = f'{cell["character"]}_leaving'
+            elif state == self.HIT:
+                sprite_name = "hikari_clicked"
             elif state == self.MISS:
-                color = (220, 100, 100) # red
+                sprite_name = "nozomi_clicked"
 
-            else:
-                color = (220, 180, 180) # light red
+            if sprite_name is not None:
+                sprite = self.sprites[sprite_name]
+                sprite_rect = self.get_sprite_rect(index, sprite)
 
-            pygame.draw.rect(screen, color, rect)
-
-            pygame.draw.rect(
-                screen,
-                (40, 40, 40),
-                rect,
-                width=2
-            )
-
-            if state == self.ACTIVE:
-                font = pygame.font.Font(None, 32)
-
-                text = font.render(
-                    cell["character"].upper(),
-                    True,
-                    (40, 40, 40)
-                )
-
-                text_rect = text.get_rect(center=rect.center)
-                screen.blit(text, text_rect)
+                self.shadow(screen, sprite, sprite_rect)
 
         self.draw_score_popup(screen)
 
@@ -224,7 +244,10 @@ class GameMechanics:
             if cell["state"] != self.ACTIVE:
                 continue
 
-            rect = self.get_cell_rect(index)
+            sprite_name = f'{cell["character"]}_active'
+            sprite = self.sprites[sprite_name]
+
+            rect = self.get_sprite_rect(index, sprite)
 
             local_position = (
                 position[0] - self.game_area_rect.x,

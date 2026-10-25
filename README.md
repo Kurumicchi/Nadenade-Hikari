@@ -246,3 +246,9 @@ Visual menu dibuat menggunakan aset yang dirancang di Figma dan digunakan sebaga
 * **Button interaction.** Menambahkan tombol **Restart** untuk memulai ulang permainan dan tombol **Quit** untuk kembali ke menu utama, dengan tampilan tombol yang berubah sesuai interaksi pemain.
 * **Menu navigation.** Memperbarui fungsi tombol **Quit** pada menu utama agar pemain dapat keluar dari permainan.
 * **Character visibility.** Memperbarui tampilan nama karakter Hikari dan Nozomi agar hanya muncul ketika karakter berada dalam state `ACTIVE`, sehingga identitas karakter tidak terlihat selama animasi kemunculan maupun transisi state lainnya.
+
+### 2026-10-25
+* **Character sprite integration.** Mengintegrasikan sprite Hikari dan Nozomi ke dalam gameplay, mencakup animasi kemunculan, karakter aktif, animasi meninggalkan area, serta reaksi ketika karakter ditekan. Menyesuaikan posisi sprite menggunakan anchor yang sama agar karakter tetap sejajar dengan lubang meskipun memiliki ukuran gambar yang berbeda.
+* **Sprite rendering and shadows.** Memperbarui sistem rendering agar sprite lubang hanya ditampilkan ketika cell berada dalam state `EMPTY`, serta menambahkan efek bayangan pada sprite karakter dan lubang untuk meningkatkan kedalaman dan kerapian tampilan visual permainan.
+* **Hitbox adjustment.** Menyesuaikan area deteksi klik dengan ukuran dan posisi sprite karakter aktif agar interaksi pemain lebih akurat.
+* **Gameplay speed adjustment.** Meningkatkan kecepatan permainan dengan memperpendek durasi animasi karakter dan interval kemunculan karakter, serta mempercepat peningkatan tingkat kesulitan seiring bertambahnya waktu bermain.
